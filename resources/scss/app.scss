@@ -1,0 +1,47 @@
+@use 'components/header';
+@use 'components/footer';
+@use 'components/dashboard';
+@use 'components/entities';
+@use 'components/forms';
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #e3e3e3;
+}
+
+main {
+    flex: 1;
+    padding-bottom: 2rem; /* Espaço antes do footer */
+}
+
+@media (min-width: 1600px) {
+    .footer {
+        padding-left: calc((100vw - 1200px) / 2);
+        padding-right: calc((100vw - 1200px) / 2);
+    }
+}
+
+// Esconde ícones em telas muito pequenas se necessário
+@media (max-width: 400px) {
+    .footer__link i {
+        display: none;
+    }
+
+    .contact-text {
+        font-size: 0.85rem;
+    }
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+
+    &-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #34d399;
+    }
+}
