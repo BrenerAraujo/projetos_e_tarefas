@@ -7,60 +7,65 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## TaskManager
+Esta é uma aplicação criada para gerenciar Projetos e Tarefas utilizando o framework Laravel. A aplicação permite criar, listar, atualizar e excluir projetos e tarefas, além de implementar uma relação entre eles.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologias
+<ul>
+    <li>Laravel 12</li>
+    <li>Laravel Sail</li>
+    <li>PHP 8.4</li>
+    <li>Docker</li>
+    <li>PostgreSQL</li>
+</ul>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Como executar o projeto
+Para executar este projeto localmente, é necessário ter o WSL2 configurado na sua máquina, rodando uma distribuição ubuntu com o GIT instalado.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Com isso você deve entrar no terminal WSL e navegar até o diretório home do usuario da distribuição linux que você instalou, geralmente `/home/username`. E dentro desse diretório, por questões de organização, deve-se criar uma pasta com o nome htdocs para armazenar os projetos executados via WSL.
 
-## Learning Laravel
+Agora dentro da pasta htdocs vamos clonar este repositório com o comando abaixo:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+`git clone https://github.com/BrenerAraujo/projetos_e_tarefas.git`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Será criada uma pasta com o nome do repositório, projetos_e_tarefas, contendo a estrutura base de aplicação Laravel. Porém, ainda é necessário instalar o core do framework e suas dependências. E para isso precisamos subir o ambiente de desenvolvimento docker. Primeiro, entre no diretório clonado:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+`cd projetos_e_tarefas`
 
-## Laravel Sponsors
+Depois crie o arquivo .env através do arquivo .env.example
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+`cp .env.example .env`
 
-### Premium Partners
+Agora precisamos criar a imagem do composer para instalar o core do framework
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+`docker-compose build composer`
 
-## Contributing
+Vamos então subir o container:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+`docker-compose up -d composer`
 
-## Code of Conduct
+Agora para instalarmos o core da aplicação, precisamos rodar:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`docker-compose run --rm composer install`
 
-## Security Vulnerabilities
+Agora podemos criar e subir os outros containers do Laravel e do Postgre
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+`./vendor/bin/sail up -d`
 
-## License
+Após isso podemos instalar os pacotes node
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+`./vendor/bin/sail npm install`
+
+Gerar a chave do Laravel
+
+`./vendor/bin/sail artisan key:generate`
+
+Por fim, criar nossas tabelas no banco
+
+`./vendor/bin/sail artisan migrate`
+
+Agora precisamos construir o frontend da nossa aplicação. Para isso basta rodar o comando:
+
+`./vendor/bin/sail npm run build`
+
+Agora basta acessarmos no navegador o endereço `localhost` e conseguiremos acessar nossa aplicação.
