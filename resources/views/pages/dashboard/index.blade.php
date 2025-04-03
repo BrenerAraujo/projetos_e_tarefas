@@ -11,7 +11,7 @@
 
         <div class="dashboard-description">
             <div class="description-card">
-                <h2>📋 Sobre o Sistema</h2>
+                <h2>Sobre o Sistema</h2>
                 <p>
                     Esta aplicação foi desenvolvida para ajudar você a organizar seus projetos e tarefas de forma eficiente.
                     Com ela você pode:
