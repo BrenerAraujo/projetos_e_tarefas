@@ -1,7 +1,7 @@
 services:
     laravel.test:
         build:
-            context: './vendor/laravel/sail/runtimes/8.4'
+            context: .
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -48,13 +48,6 @@ services:
                 - '${DB_USERNAME}'
             retries: 3
             timeout: 5s
-    composer:
-        image: composer:latest
-        volumes:
-            - .:/app
-        working_dir: /app
-        environment:
-            - COMPOSER_HOME=/tmp/composer
 networks:
     sail:
         driver: bridge
